@@ -1,0 +1,1673 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Ayesha AI – by Montoo Jatav</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --bg: #ffffff;
+  --bg2: #f7f7f8;
+  --sidebar: #f7f7f8;
+  --sidebar-border: #e5e5e6;
+  --border: #e5e5e6;
+  --text: #0d0d0d;
+  --text2: #6e6e80;
+  --text3: #acacbe;
+  --accent: #a855f7;
+  --accent2: #ec4899;
+  --accent3: #f97316;
+  --input-bg: #ffffff;
+  --input-border: #d9d9e3;
+  --hover: #ececf1;
+  --shadow: rgba(0,0,0,0.06);
+  --shadow2: rgba(0,0,0,0.12);
+  --user-bubble: #f0e8ff;
+  --code-bg: #f4f4f5;
+  --font: 'DM Sans', -apple-system, sans-serif;
+  --mono: 'DM Mono', monospace;
+}
+
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+  font-size: 15px;
+}
+
+/* ==================== SIDEBAR ==================== */
+.sidebar {
+  width: 270px;
+  background: var(--sidebar);
+  border-right: 1px solid var(--sidebar-border);
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  transition: width 0.25s ease;
+  overflow: hidden;
+}
+
+.sidebar-header {
+  padding: 16px 14px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* ========== AYESHA LOGO SVG ========== */
+.ayesha-logo {
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+  filter: drop-shadow(0 2px 6px rgba(168,85,247,0.35));
+}
+
+.brand-name {
+  font-weight: 700;
+  font-size: 17px;
+  background: linear-gradient(135deg, #a855f7, #ec4899);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: -0.3px;
+}
+
+.brand-tag {
+  font-size: 10px;
+  color: var(--text2);
+  font-weight: 400;
+  display: block;
+  margin-top: -2px;
+  -webkit-text-fill-color: var(--text2);
+}
+
+.icon-btn {
+  background: none;
+  border: none;
+  color: var(--text2);
+  cursor: pointer;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s;
+}
+.icon-btn:hover { background: var(--hover); color: var(--text); }
+
+.new-chat-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 12px 14px 8px;
+  padding: 9px 14px;
+  background: linear-gradient(135deg, #a855f7, #ec4899);
+  border: none;
+  border-radius: 10px;
+  color: white;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: var(--font);
+  transition: all 0.2s;
+  box-shadow: 0 2px 8px rgba(168,85,247,0.3);
+}
+.new-chat-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 14px rgba(168,85,247,0.4); }
+
+.search-box {
+  margin: 0 14px 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--input-bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 7px 12px;
+  color: var(--text2);
+  font-size: 13px;
+}
+
+.search-box input {
+  background: none; border: none; outline: none;
+  font-size: 13px; color: var(--text);
+  font-family: var(--font); width: 100%;
+}
+.search-box input::placeholder { color: var(--text3); }
+
+.history-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text3);
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  padding: 6px 16px 4px;
+}
+
+.history-scroll {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0 8px;
+}
+.history-scroll::-webkit-scrollbar { width: 4px; }
+.history-scroll::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+
+.history-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  color: var(--text2);
+  font-size: 13px;
+  transition: all 0.15s;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.history-item:hover, .history-item.active { background: var(--hover); color: var(--text); }
+.history-item.active { background: #f0e8ff; color: var(--accent); font-weight: 500; }
+
+.sidebar-footer {
+  border-top: 1px solid var(--border);
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.settings-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  color: var(--text2);
+  font-size: 13px;
+  transition: all 0.15s;
+}
+.settings-row:hover { background: var(--hover); color: var(--text); }
+
+.profile-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.15s;
+  border: 1px solid var(--border);
+  background: var(--bg);
+}
+.profile-row:hover { background: var(--hover); }
+
+.profile-av {
+  width: 34px; height: 34px;
+  background: linear-gradient(135deg, #a855f7, #ec4899);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  color: white; font-size: 14px; font-weight: 700; flex-shrink: 0;
+}
+
+.profile-name { font-size: 13px; font-weight: 600; color: var(--text); }
+.profile-sub { font-size: 11px; color: var(--text2); }
+
+/* ==================== MAIN ==================== */
+.main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--bg);
+}
+
+/* TOP BAR */
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 20px;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg);
+  z-index: 10;
+}
+
+.model-pill {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 6px 12px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  transition: all 0.15s;
+}
+.model-pill:hover { background: var(--hover); }
+
+.model-dot {
+  width: 8px; height: 8px;
+  background: #10b981;
+  border-radius: 50%;
+  animation: blink 2s infinite;
+}
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.4} }
+
+.topbar-right { display: flex; align-items: center; gap: 8px; }
+
+.topbar-btn {
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 6px 12px;
+  font-size: 13px;
+  color: var(--text2);
+  cursor: pointer;
+  display: flex; align-items: center; gap: 6px;
+  transition: all 0.15s;
+  font-family: var(--font);
+}
+.topbar-btn:hover { background: var(--hover); color: var(--text); }
+
+/* CHAT AREA */
+.chat-area {
+  flex: 1;
+  overflow-y: auto;
+  scroll-behavior: smooth;
+}
+.chat-area::-webkit-scrollbar { width: 6px; }
+.chat-area::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+
+/* WELCOME */
+.welcome {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100%;
+  padding: 40px 24px;
+  text-align: center;
+  animation: fadeUp 0.5s ease;
+}
+
+@keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+
+.welcome-avatar {
+  width: 80px; height: 80px;
+  margin-bottom: 20px;
+  filter: drop-shadow(0 4px 20px rgba(168,85,247,0.4));
+  animation: floatAv 4s ease-in-out infinite;
+}
+
+@keyframes floatAv {
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-8px)}
+}
+
+.welcome h1 {
+  font-size: 30px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 8px;
+  letter-spacing: -0.5px;
+}
+
+.welcome-sub {
+  color: var(--text2);
+  font-size: 15px;
+  margin-bottom: 36px;
+}
+
+.welcome-sub span {
+  background: linear-gradient(135deg, #a855f7, #ec4899);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: 600;
+}
+
+.caps-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  max-width: 680px;
+  width: 100%;
+  margin-bottom: 32px;
+}
+
+.cap-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 16px;
+  text-align: left;
+  transition: all 0.2s;
+}
+.cap-card:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: 0 4px 16px var(--shadow2); }
+.cap-card .cap-icon { font-size: 22px; margin-bottom: 8px; }
+.cap-card .cap-title { font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+.cap-card .cap-desc { font-size: 12px; color: var(--text2); line-height: 1.5; }
+
+.suggestions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  max-width: 680px;
+}
+
+.sug-chip {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 8px 16px;
+  font-size: 13px;
+  color: var(--text2);
+  cursor: pointer;
+  transition: all 0.15s;
+  font-family: var(--font);
+}
+.sug-chip:hover { background: #f0e8ff; border-color: var(--accent); color: var(--accent); }
+
+/* MESSAGES */
+.msg-outer {
+  padding: 24px 0;
+}
+
+.msg-inner {
+  max-width: 740px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.message {
+  display: flex;
+  gap: 14px;
+  margin-bottom: 28px;
+  animation: fadeUp 0.3s ease;
+}
+
+.msg-av {
+  width: 34px; height: 34px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  margin-top: 2px;
+  overflow: hidden;
+  display: flex; align-items: center; justify-content: center;
+}
+
+.msg-av.user-av {
+  background: linear-gradient(135deg, #a855f7, #ec4899);
+  color: white; font-size: 13px; font-weight: 700;
+}
+
+.msg-av.ai-av {
+  padding: 2px;
+  background: white;
+  border: 2px solid #f0e8ff;
+}
+
+.msg-av.ai-av svg { width: 100%; height: 100%; }
+
+.msg-body { flex: 1; min-width: 0; }
+
+.msg-sender {
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.msg-sender.ai-name {
+  background: linear-gradient(135deg, #a855f7, #ec4899);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.verified-badge {
+  background: linear-gradient(135deg, #a855f7, #ec4899);
+  border-radius: 50%;
+  width: 14px; height: 14px;
+  display: inline-flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+
+.msg-content {
+  font-size: 15px;
+  line-height: 1.75;
+  color: var(--text);
+}
+
+.user-bubble {
+  background: var(--user-bubble);
+  border-radius: 18px 18px 4px 18px;
+  padding: 12px 16px;
+  display: inline-block;
+  max-width: 100%;
+  word-break: break-word;
+}
+
+/* Code */
+.msg-content pre {
+  background: var(--code-bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  margin: 12px 0;
+}
+.code-header {
+  background: #e8e8ed;
+  padding: 6px 14px;
+  font-size: 12px;
+  color: var(--text2);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--border);
+  font-family: var(--mono);
+}
+.copy-code-btn {
+  background: none; border: none; cursor: pointer;
+  color: var(--text2); font-size: 11px; padding: 2px 6px;
+  border-radius: 4px; transition: all 0.15s; font-family: var(--font);
+}
+.copy-code-btn:hover { background: var(--border); color: var(--text); }
+
+.msg-content code {
+  font-family: var(--mono);
+  font-size: 13px;
+  padding: 16px;
+  display: block;
+  overflow-x: auto;
+  line-height: 1.6;
+}
+.msg-content :not(pre) > code {
+  background: var(--code-bg);
+  border: 1px solid var(--border);
+  padding: 2px 6px;
+  border-radius: 5px;
+  font-size: 13px;
+  display: inline;
+}
+.msg-content strong { font-weight: 600; }
+.msg-content em { font-style: italic; color: var(--text2); }
+.msg-content ul, .msg-content ol { padding-left: 20px; margin: 8px 0; }
+.msg-content li { margin: 4px 0; }
+.msg-content h1,.msg-content h2,.msg-content h3 { font-weight: 700; margin: 14px 0 6px; }
+
+/* MSG ACTIONS */
+.msg-actions {
+  display: flex;
+  gap: 4px;
+  margin-top: 8px;
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+.message:hover .msg-actions { opacity: 1; }
+
+.act-btn {
+  background: none; border: none; cursor: pointer;
+  color: var(--text2); font-size: 12px; padding: 4px 8px;
+  border-radius: 6px; display: flex; align-items: center; gap: 4px;
+  transition: all 0.15s; font-family: var(--font);
+}
+.act-btn:hover { background: var(--hover); color: var(--text); }
+
+/* VOICE BUBBLE */
+.voice-msg-bubble {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #f0e8ff;
+  border-radius: 18px;
+  padding: 10px 14px;
+  width: fit-content;
+  max-width: 280px;
+}
+.voice-icon-small { color: var(--accent); }
+.voice-waveform {
+  display: flex;
+  gap: 3px;
+  align-items: center;
+  height: 20px;
+}
+.wv-bar {
+  width: 3px;
+  background: var(--accent);
+  border-radius: 2px;
+  animation: wvAnim 0.8s ease-in-out infinite;
+}
+.wv-bar:nth-child(1){height:8px;animation-delay:0s}
+.wv-bar:nth-child(2){height:14px;animation-delay:0.1s}
+.wv-bar:nth-child(3){height:18px;animation-delay:0.2s}
+.wv-bar:nth-child(4){height:11px;animation-delay:0.3s}
+.wv-bar:nth-child(5){height:16px;animation-delay:0.15s}
+.wv-bar:nth-child(6){height:9px;animation-delay:0.05s}
+.wv-bar:nth-child(7){height:13px;animation-delay:0.25s}
+@keyframes wvAnim {
+  0%,100%{transform:scaleY(0.4);opacity:0.6}
+  50%{transform:scaleY(1);opacity:1}
+}
+.voice-duration { font-size: 12px; color: var(--text2); }
+
+/* TYPING */
+.typing-dots {
+  display: flex; gap: 5px; align-items: center;
+  padding: 8px 0;
+}
+.typing-dots span {
+  width: 8px; height: 8px;
+  background: linear-gradient(135deg, #a855f7, #ec4899);
+  border-radius: 50%;
+  animation: typeBounce 1.3s infinite ease-in-out;
+}
+.typing-dots span:nth-child(2){animation-delay:0.2s}
+.typing-dots span:nth-child(3){animation-delay:0.4s}
+@keyframes typeBounce {
+  0%,80%,100%{transform:scale(0.6);opacity:0.4}
+  40%{transform:scale(1);opacity:1}
+}
+
+/* INPUT AREA */
+.input-section {
+  padding: 12px 20px 16px;
+  border-top: 1px solid var(--border);
+  background: var(--bg);
+}
+
+.input-wrapper {
+  max-width: 740px;
+  margin: 0 auto;
+}
+
+/* TOOLBAR ABOVE INPUT */
+.input-toolbar {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+}
+
+.toolbar-chip {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 10px;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  font-size: 12px;
+  color: var(--text2);
+  cursor: pointer;
+  transition: all 0.15s;
+  font-family: var(--font);
+}
+.toolbar-chip:hover { background: #f0e8ff; border-color: var(--accent); color: var(--accent); }
+.toolbar-chip.active { background: #f0e8ff; border-color: var(--accent); color: var(--accent); }
+
+/* INPUT BOX */
+.input-box {
+  background: var(--input-bg);
+  border: 1.5px solid var(--input-border);
+  border-radius: 16px;
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  padding: 10px 12px;
+  box-shadow: 0 2px 8px var(--shadow);
+  transition: all 0.2s;
+}
+.input-box:focus-within {
+  border-color: var(--accent);
+  box-shadow: 0 2px 12px rgba(168,85,247,0.2);
+}
+
+#user-input {
+  flex: 1; background: none; border: none; outline: none;
+  font-size: 15px; color: var(--text); font-family: var(--font);
+  resize: none; max-height: 180px; min-height: 24px; line-height: 1.5;
+}
+#user-input::placeholder { color: var(--text3); }
+
+.input-left { display: flex; align-items: center; gap: 4px; flex-shrink: 0; }
+.input-right { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
+
+.ib-btn {
+  background: none; border: none; cursor: pointer;
+  color: var(--text2); width: 32px; height: 32px;
+  border-radius: 8px; display: flex; align-items: center; justify-content: center;
+  transition: all 0.15s;
+}
+.ib-btn:hover { background: var(--hover); color: var(--text); }
+
+/* VOICE BUTTON */
+.voice-btn {
+  width: 36px; height: 36px;
+  background: none;
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--text2);
+  transition: all 0.2s;
+  position: relative;
+}
+.voice-btn:hover { border-color: var(--accent); color: var(--accent); background: #f0e8ff; }
+.voice-btn.recording {
+  border-color: #ef4444;
+  color: #ef4444;
+  background: #fef2f2;
+  animation: voicePulse 1s infinite;
+}
+@keyframes voicePulse {
+  0%,100%{box-shadow:0 0 0 0 rgba(239,68,68,0.3)}
+  50%{box-shadow:0 0 0 6px rgba(239,68,68,0)}
+}
+
+/* SEND BUTTON */
+.send-btn {
+  width: 36px; height: 36px;
+  background: linear-gradient(135deg, #a855f7, #ec4899);
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  color: white;
+  transition: all 0.2s;
+  box-shadow: 0 2px 8px rgba(168,85,247,0.3);
+  flex-shrink: 0;
+}
+.send-btn:hover { transform: scale(1.05); box-shadow: 0 4px 12px rgba(168,85,247,0.4); }
+.send-btn:disabled { opacity: 0.35; cursor: not-allowed; transform: none; box-shadow: none; }
+
+.input-footer-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 8px;
+  padding: 0 2px;
+}
+
+.char-count { font-size: 11px; color: var(--text3); }
+.disclaimer-text {
+  font-size: 11px;
+  color: var(--text3);
+  text-align: center;
+}
+
+/* VOICE RECORDING OVERLAY */
+.voice-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(255,255,255,0.92);
+  backdrop-filter: blur(10px);
+  z-index: 100;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+.voice-overlay.show { display: flex; }
+
+.voice-ripple {
+  position: relative;
+  width: 100px; height: 100px;
+  display: flex; align-items: center; justify-content: center;
+}
+.voice-ripple::before, .voice-ripple::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(168,85,247,0.15);
+  animation: rippleOut 1.5s infinite;
+}
+.voice-ripple::before { width: 100%; height: 100%; }
+.voice-ripple::after { width: 130%; height: 130%; animation-delay: 0.4s; }
+@keyframes rippleOut {
+  0%{transform:scale(0.8);opacity:1}
+  100%{transform:scale(1.4);opacity:0}
+}
+
+.voice-mic-big {
+  width: 64px; height: 64px;
+  background: linear-gradient(135deg, #a855f7, #ec4899);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  color: white; z-index: 1;
+  animation: micPulse 1s ease-in-out infinite;
+}
+@keyframes micPulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.08)} }
+
+.voice-transcript {
+  font-size: 18px;
+  color: var(--text2);
+  text-align: center;
+  max-width: 400px;
+  min-height: 30px;
+}
+
+.voice-live {
+  font-size: 13px;
+  color: var(--accent);
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.stop-btn {
+  background: var(--text);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 10px 28px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: var(--font);
+  transition: all 0.2s;
+}
+.stop-btn:hover { opacity: 0.85; }
+
+/* API KEY MODAL */
+.modal-overlay {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.4);
+  backdrop-filter: blur(4px);
+  z-index: 200;
+  display: flex; align-items: center; justify-content: center;
+}
+.modal {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 32px;
+  width: 440px;
+  max-width: 90vw;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+  animation: modalIn 0.3s ease;
+}
+@keyframes modalIn { from{opacity:0;transform:scale(0.95)} to{opacity:1;transform:scale(1)} }
+
+.modal-logo {
+  display: flex; align-items: center; gap: 12px;
+  margin-bottom: 20px;
+}
+.modal-logo svg { width: 44px; height: 44px; filter: drop-shadow(0 2px 8px rgba(168,85,247,0.4)); }
+.modal-logo-text h2 { font-size: 20px; font-weight: 700; color: var(--text); }
+.modal-logo-text p { font-size: 12px; color: var(--text2); }
+
+.modal p { color: var(--text2); font-size: 14px; line-height: 1.6; margin-bottom: 20px; }
+
+.modal-input-label { font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 6px; }
+.modal-input {
+  width: 100%;
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-size: 14px;
+  color: var(--text);
+  background: var(--bg2);
+  outline: none;
+  font-family: var(--mono);
+  transition: border-color 0.15s;
+  margin-bottom: 6px;
+}
+.modal-input:focus { border-color: var(--accent); }
+.modal-hint { font-size: 11px; color: var(--text3); margin-bottom: 20px; }
+.modal-hint a { color: var(--accent); text-decoration: none; }
+
+.modal-btns { display: flex; gap: 10px; }
+.modal-btn-primary {
+  flex: 1;
+  padding: 11px;
+  background: linear-gradient(135deg, #a855f7, #ec4899);
+  border: none; border-radius: 10px;
+  color: white; font-size: 14px; font-weight: 600;
+  cursor: pointer; font-family: var(--font);
+  transition: opacity 0.15s;
+}
+.modal-btn-primary:hover { opacity: 0.9; }
+.modal-btn-secondary {
+  padding: 11px 16px;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  color: var(--text2); font-size: 14px;
+  cursor: pointer; font-family: var(--font);
+  transition: all 0.15s;
+}
+.modal-btn-secondary:hover { background: var(--hover); }
+
+/* TOAST */
+.toast {
+  position: fixed; bottom: 80px; right: 20px; z-index: 300;
+  background: var(--text);
+  color: white;
+  padding: 10px 16px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 500;
+  transform: translateY(20px);
+  opacity: 0;
+  transition: all 0.3s;
+  pointer-events: none;
+}
+.toast.show { transform: translateY(0); opacity: 1; }
+
+/* TTS indicator */
+.speaking-badge {
+  display: inline-flex; align-items: center; gap: 5px;
+  background: #e8faf3;
+  border: 1px solid #a7f3d0;
+  color: #059669;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 20px;
+  margin-top: 4px;
+}
+
+@media(max-width:640px) {
+  .sidebar{display:none;}
+  .caps-grid{grid-template-columns:1fr 1fr;}
+  .welcome h1{font-size:22px;}
+}
+</style>
+</head>
+<body>
+
+<!-- API KEY MODAL -->
+<div class="modal-overlay" id="modal-overlay">
+  <div class="modal">
+    <div class="modal-logo">
+      <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <radialGradient id="mg1" cx="50%" cy="30%" r="70%">
+            <stop offset="0%" stop-color="#e879f9"/>
+            <stop offset="100%" stop-color="#7c3aed"/>
+          </radialGradient>
+        </defs>
+        <circle cx="40" cy="40" r="38" fill="url(#mg1)"/>
+        <ellipse cx="40" cy="34" rx="14" ry="16" fill="white" opacity="0.95"/>
+        <ellipse cx="40" cy="66" rx="22" ry="16" fill="white" opacity="0.9"/>
+        <circle cx="35" cy="30" r="3" fill="#7c3aed"/>
+        <circle cx="45" cy="30" r="3" fill="#7c3aed"/>
+        <path d="M34 40 Q40 45 46 40" stroke="#7c3aed" stroke-width="2" stroke-linecap="round" fill="none"/>
+        <circle cx="40" cy="12" r="5" fill="white" opacity="0.85"/>
+        <line x1="40" y1="17" x2="40" y2="22" stroke="white" stroke-width="2.5" stroke-linecap="round" opacity="0.8"/>
+      </svg>
+      <div class="modal-logo-text">
+        <h2>Ayesha AI</h2>
+        <p>Created by Montoo Jatav</p>
+      </div>
+    </div>
+    <p>Welcome! To start chatting with Ayesha AI, please enter your OpenAI API key. Your key is stored only in your browser and never sent to any server except OpenAI.</p>
+    <div class="modal-input-label">OpenAI API Key</div>
+    <input type="password" class="modal-input" id="api-key-input" placeholder="sk-proj-..."/>
+    <div class="modal-hint">Get your key at <a href="https://platform.openai.com/api-keys" target="_blank">platform.openai.com/api-keys</a>. It is stored locally in your browser only.</div>
+    <div class="modal-btns">
+      <button class="modal-btn-secondary" onclick="closeModalDemo()">Try Demo</button>
+      <button class="modal-btn-primary" onclick="saveKey()">Start Chatting →</button>
+    </div>
+  </div>
+</div>
+
+<!-- VOICE RECORDING OVERLAY -->
+<div class="voice-overlay" id="voice-overlay">
+  <div class="voice-ripple">
+    <div class="voice-mic-big">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
+        <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+        <line x1="12" y1="19" x2="12" y2="23"/>
+        <line x1="8" y1="23" x2="16" y2="23"/>
+      </svg>
+    </div>
+  </div>
+  <div class="voice-live">
+    <div style="width:8px;height:8px;background:#ef4444;border-radius:50%;animation:blink 1s infinite"></div>
+    Listening...
+  </div>
+  <div class="voice-transcript" id="voice-transcript">Say something...</div>
+  <button class="stop-btn" onclick="stopVoice()">✓ Done</button>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+  <div class="sidebar-header">
+    <div class="brand">
+      <!-- AYESHA LOGO -->
+      <svg class="ayesha-logo" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <radialGradient id="g1" cx="50%" cy="30%" r="70%">
+            <stop offset="0%" stop-color="#e879f9"/>
+            <stop offset="100%" stop-color="#7c3aed"/>
+          </radialGradient>
+          <radialGradient id="g2" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#fdf4ff"/>
+            <stop offset="100%" stop-color="#f3e8ff"/>
+          </radialGradient>
+        </defs>
+        <circle cx="40" cy="40" r="38" fill="url(#g1)"/>
+        <ellipse cx="40" cy="34" rx="14" ry="16" fill="white" opacity="0.95"/>
+        <ellipse cx="40" cy="66" rx="22" ry="16" fill="white" opacity="0.9"/>
+        <circle cx="35" cy="30" r="3" fill="#7c3aed"/>
+        <circle cx="45" cy="30" r="3" fill="#7c3aed"/>
+        <path d="M34 40 Q40 45 46 40" stroke="#7c3aed" stroke-width="2" stroke-linecap="round" fill="none"/>
+        <circle cx="40" cy="12" r="5" fill="white" opacity="0.85"/>
+        <line x1="40" y1="17" x2="40" y2="22" stroke="white" stroke-width="2.5" stroke-linecap="round" opacity="0.8"/>
+      </svg>
+      <div>
+        <div class="brand-name">Ayesha AI</div>
+        <span class="brand-tag">by Montoo Jatav</span>
+      </div>
+    </div>
+    <button class="icon-btn" onclick="newChat()" title="New Chat">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <path d="M12 5v14M5 12h14"/>
+      </svg>
+    </button>
+  </div>
+
+  <button class="new-chat-btn" onclick="newChat()">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+      <path d="M12 5v14M5 12h14"/>
+    </svg>
+    New Conversation
+  </button>
+
+  <div class="search-box">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
+    </svg>
+    <input type="text" placeholder="Search conversations..."/>
+  </div>
+
+  <div style="flex:1;overflow-y:auto">
+    <div class="history-label">Today</div>
+    <div class="history-item active" id="cur-title">New conversation</div>
+
+    <div class="history-label" style="margin-top:8px">Yesterday</div>
+    <div class="history-item">🐍 Write a Python script for me</div>
+    <div class="history-item">🌍 Translate to Hindi please</div>
+    <div class="history-item">🧠 Explain neural networks</div>
+
+    <div class="history-label" style="margin-top:8px">Previous 7 Days</div>
+    <div class="history-item">✍️ Write a poem about rain</div>
+    <div class="history-item">🏋️ Fitness plan for beginners</div>
+    <div class="history-item">💼 Resume writing tips</div>
+    <div class="history-item">📊 Data analysis basics</div>
+  </div>
+
+  <div class="sidebar-footer">
+    <div class="settings-row">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="3"/>
+        <path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/>
+      </svg>
+      API Key Settings
+    </div>
+    <div class="settings-row" onclick="toggleTTS()">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+        <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
+        <path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
+      </svg>
+      <span id="tts-label">Voice Response: OFF</span>
+    </div>
+    <div class="profile-row">
+      <div class="profile-av">M</div>
+      <div>
+        <div class="profile-name">Montoo Jatav</div>
+        <div class="profile-sub">Creator</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+  <!-- TOPBAR -->
+  <div class="topbar">
+    <div class="model-pill">
+      <div class="model-dot"></div>
+      GPT-4o
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <path d="M6 9l6 6 6-6"/>
+      </svg>
+    </div>
+    <div class="topbar-right">
+      <button class="topbar-btn" onclick="clearChat()">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="3 6 5 6 21 6"/>
+          <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/>
+          <path d="M10 11v6M14 11v6"/>
+        </svg>
+        Clear
+      </button>
+      <button class="topbar-btn">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/>
+          <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/>
+          <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
+        </svg>
+        Share
+      </button>
+    </div>
+  </div>
+
+  <!-- CHAT AREA -->
+  <div class="chat-area" id="chat-area">
+    <div id="welcome-screen" class="welcome">
+      <!-- WELCOME LOGO -->
+      <svg class="welcome-avatar" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <radialGradient id="wg1" cx="50%" cy="30%" r="70%">
+            <stop offset="0%" stop-color="#e879f9"/>
+            <stop offset="100%" stop-color="#7c3aed"/>
+          </radialGradient>
+        </defs>
+        <circle cx="40" cy="40" r="38" fill="url(#wg1)"/>
+        <ellipse cx="40" cy="34" rx="14" ry="16" fill="white" opacity="0.95"/>
+        <ellipse cx="40" cy="66" rx="22" ry="16" fill="white" opacity="0.9"/>
+        <circle cx="35" cy="30" r="3" fill="#7c3aed"/>
+        <circle cx="45" cy="30" r="3" fill="#7c3aed"/>
+        <path d="M34 40 Q40 45 46 40" stroke="#7c3aed" stroke-width="2" stroke-linecap="round" fill="none"/>
+        <circle cx="40" cy="12" r="5" fill="white" opacity="0.85"/>
+        <line x1="40" y1="17" x2="40" y2="22" stroke="white" stroke-width="2.5" stroke-linecap="round" opacity="0.8"/>
+      </svg>
+
+      <h1>Namaste! Main hoon Ayesha AI 👋</h1>
+      <p class="welcome-sub">Your intelligent assistant, created by <span>Montoo Jatav</span></p>
+
+      <div class="caps-grid">
+        <div class="cap-card">
+          <div class="cap-icon">🎙️</div>
+          <div class="cap-title">Voice Messages</div>
+          <div class="cap-desc">Speak directly — Ayesha will listen and respond</div>
+        </div>
+        <div class="cap-card">
+          <div class="cap-icon">🌐</div>
+          <div class="cap-title">Multilingual</div>
+          <div class="cap-desc">Chat in Hindi, English, Urdu & more</div>
+        </div>
+        <div class="cap-card">
+          <div class="cap-icon">🧠</div>
+          <div class="cap-title">GPT-4o Powered</div>
+          <div class="cap-desc">State-of-the-art intelligence at your fingertips</div>
+        </div>
+        <div class="cap-card">
+          <div class="cap-icon">📝</div>
+          <div class="cap-title">Code & Writing</div>
+          <div class="cap-desc">Assist with code, essays, emails and more</div>
+        </div>
+        <div class="cap-card">
+          <div class="cap-icon">🔊</div>
+          <div class="cap-title">Voice Response</div>
+          <div class="cap-desc">Ayesha can speak replies back to you</div>
+        </div>
+        <div class="cap-card">
+          <div class="cap-icon">🔒</div>
+          <div class="cap-title">Private & Secure</div>
+          <div class="cap-desc">Your data stays in your browser only</div>
+        </div>
+      </div>
+
+      <div class="suggestions">
+        <div class="sug-chip" onclick="suggest('Mujhe Python mein for loop samjhao')">🐍 Python loop samjhao</div>
+        <div class="sug-chip" onclick="suggest('Write a professional email for me')">📧 Professional email likhao</div>
+        <div class="sug-chip" onclick="suggest('Ek motivational poem likhao mere liye')">✍️ Motivational poem</div>
+        <div class="sug-chip" onclick="suggest('AI kya hoti hai simple shabdon mein?')">🤖 AI kya hai?</div>
+        <div class="sug-chip" onclick="suggest('Mujhe ek healthy diet plan do')">🥗 Diet plan chahiye</div>
+        <div class="sug-chip" onclick="suggest('JavaScript mein async/await explain karo')">💻 Async/Await explain</div>
+      </div>
+    </div>
+
+    <div id="msg-container" style="display:none">
+      <div class="msg-outer">
+        <div class="msg-inner" id="messages-list"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- INPUT SECTION -->
+  <div class="input-section">
+    <div class="input-wrapper">
+      <!-- TOOLBAR -->
+      <div class="input-toolbar">
+        <button class="toolbar-chip" id="chip-voice" onclick="toggleVoiceInput()">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
+            <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+            <line x1="12" y1="19" x2="12" y2="23"/>
+          </svg>
+          Voice Input
+        </button>
+        <button class="toolbar-chip" onclick="toggleTTS()" id="chip-tts">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+            <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
+          </svg>
+          Voice Reply
+        </button>
+        <button class="toolbar-chip" onclick="suggest('Translate this to Hindi: ')">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M5 8l6 6M4 14l6-6 2-3M2 5h12M7 2h1M22 22l-5-10-5 10M14 18h6"/>
+          </svg>
+          Translate
+        </button>
+        <button class="toolbar-chip" onclick="suggest('Write code for: ')">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/>
+          </svg>
+          Code
+        </button>
+      </div>
+
+      <!-- INPUT BOX -->
+      <div class="input-box" id="input-box">
+        <div class="input-left">
+          <button class="ib-btn" title="Attach file">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/>
+            </svg>
+          </button>
+        </div>
+
+        <textarea id="user-input"
+          placeholder="Message Ayesha AI..."
+          rows="1"
+          onkeydown="handleKey(event)"
+          oninput="handleInput(this)"></textarea>
+
+        <div class="input-right">
+          <button class="voice-btn" id="voice-btn" onclick="toggleVoiceInput()" title="Voice message">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
+              <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+              <line x1="12" y1="19" x2="12" y2="23"/>
+              <line x1="8" y1="23" x2="16" y2="23"/>
+            </svg>
+          </button>
+          <button class="send-btn" id="send-btn" onclick="sendMessage()" disabled>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <line x1="12" y1="19" x2="12" y2="5"/>
+              <polyline points="5 12 12 5 19 12"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="input-footer-row">
+        <div class="char-count" id="char-count">0 / 4000</div>
+        <div class="disclaimer-text">Ayesha AI may make mistakes. Verify important information.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ==================== STATE ====================
+let apiKey = localStorage.getItem('ayesha_oai_key') || '';
+let messages = [];
+let isLoading = false;
+let recognition = null;
+let isRecording = false;
+let ttsEnabled = false;
+let currentSpeech = null;
+let demoMode = false;
+
+// ==================== INIT ====================
+window.addEventListener('load', () => {
+  if (apiKey) {
+    document.getElementById('modal-overlay').style.display = 'none';
+  } else {
+    document.getElementById('modal-overlay').style.display = 'flex';
+  }
+  document.getElementById('api-key-input').value = apiKey;
+  initSpeechRecognition();
+});
+
+function saveKey() {
+  const key = document.getElementById('api-key-input').value.trim();
+  if (!key) { showToast('Please enter an API key'); return; }
+  apiKey = key;
+  localStorage.setItem('ayesha_oai_key', key);
+  document.getElementById('modal-overlay').style.display = 'none';
+  demoMode = false;
+  showToast('✅ API key saved!');
+}
+
+function closeModalDemo() {
+  document.getElementById('modal-overlay').style.display = 'none';
+  demoMode = true;
+  showToast('🎭 Demo mode — responses will be simulated');
+}
+
+// ==================== INPUT HANDLING ====================
+function handleInput(el) {
+  el.style.height = 'auto';
+  el.style.height = Math.min(el.scrollHeight, 180) + 'px';
+  const len = el.value.length;
+  document.getElementById('char-count').textContent = len + ' / 4000';
+  document.getElementById('send-btn').disabled = el.value.trim() === '' || isLoading;
+}
+
+function handleKey(e) {
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault();
+    if (!document.getElementById('send-btn').disabled) sendMessage();
+  }
+}
+
+function suggest(text) {
+  document.getElementById('user-input').value = text;
+  handleInput(document.getElementById('user-input'));
+  sendMessage();
+}
+
+function newChat() {
+  messages = [];
+  document.getElementById('messages-list').innerHTML = '';
+  document.getElementById('welcome-screen').style.display = 'flex';
+  document.getElementById('msg-container').style.display = 'none';
+  document.getElementById('user-input').value = '';
+  document.getElementById('send-btn').disabled = true;
+  document.getElementById('char-count').textContent = '0 / 4000';
+  document.getElementById('cur-title').textContent = 'New conversation';
+  if (currentSpeech) { window.speechSynthesis.cancel(); currentSpeech = null; }
+}
+
+function clearChat() { newChat(); }
+
+// ==================== AYESHA SVG AVATAR ====================
+function ayeshaSVG(size = 34) {
+  return `<svg width="${size}" height="${size}" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <radialGradient id="av1" cx="50%" cy="30%" r="70%">
+        <stop offset="0%" stop-color="#e879f9"/>
+        <stop offset="100%" stop-color="#7c3aed"/>
+      </radialGradient>
+    </defs>
+    <circle cx="40" cy="40" r="38" fill="url(#av1)"/>
+    <ellipse cx="40" cy="34" rx="14" ry="16" fill="white" opacity="0.95"/>
+    <ellipse cx="40" cy="66" rx="22" ry="16" fill="white" opacity="0.9"/>
+    <circle cx="35" cy="30" r="3" fill="#7c3aed"/>
+    <circle cx="45" cy="30" r="3" fill="#7c3aed"/>
+    <path d="M34 40 Q40 45 46 40" stroke="#7c3aed" stroke-width="2" stroke-linecap="round" fill="none"/>
+    <circle cx="40" cy="12" r="5" fill="white" opacity="0.85"/>
+    <line x1="40" y1="17" x2="40" y2="22" stroke="white" stroke-width="2.5" stroke-linecap="round" opacity="0.8"/>
+  </svg>`;
+}
+
+// ==================== RENDER MESSAGE ====================
+function renderMessage(role, content, isVoice = false) {
+  const isUser = role === 'user';
+  const el = document.createElement('div');
+  el.className = 'message';
+
+  let contentHTML = '';
+  if (isVoice && isUser) {
+    const wvBars = [1,2,3,4,5,6,7].map(() => `<div class="wv-bar"></div>`).join('');
+    contentHTML = `<div class="voice-msg-bubble">
+      <svg class="voice-icon-small" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
+        <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+        <line x1="12" y1="19" x2="12" y2="23"/>
+      </svg>
+      <div class="wv-bar-wrap">
+        <div class="voice-waveform">${wvBars}</div>
+        <div style="font-size:12px;color:var(--text2);margin-top:2px;">${content}</div>
+      </div>
+    </div>`;
+  } else if (isUser) {
+    contentHTML = `<div class="user-bubble">${escapeHtml(content)}</div>`;
+  } else {
+    contentHTML = formatAIContent(content);
+  }
+
+  el.innerHTML = `
+    <div class="msg-av ${isUser ? 'user-av' : 'ai-av'}">
+      ${isUser ? 'M' : ayeshaSVG(30)}
+    </div>
+    <div class="msg-body">
+      <div class="msg-sender ${isUser ? '' : 'ai-name'}">
+        ${isUser ? 'You' : `Ayesha AI ${!isUser ? `<svg class="verified-badge" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>` : ''}`}
+      </div>
+      <div class="msg-content">${contentHTML}</div>
+      ${!isUser ? `<div class="msg-actions">
+        <button class="act-btn" onclick="copyMsg(this)">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="9" y="9" width="13" height="13" rx="2"/>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+          </svg> Copy
+        </button>
+        <button class="act-btn" onclick="speakMsg(this)" id="speak-btn-${Date.now()}">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+            <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
+          </svg> Listen
+        </button>
+        <button class="act-btn">👍</button>
+        <button class="act-btn">👎</button>
+        <button class="act-btn" onclick="regenerate()">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="23 4 23 10 17 10"/>
+            <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
+          </svg> Retry
+        </button>
+      </div>` : ''}
+    </div>
+  `;
+
+  return el;
+}
+
+function escapeHtml(str) {
+  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function formatAIContent(text) {
+  // Code blocks
+  text = text.replace(/```(\w*)\n?([\s\S]*?)```/g, (_, lang, code) => {
+    return `<pre><div class="code-header"><span>${lang || 'code'}</span><button class="copy-code-btn" onclick="copyCode(this)">Copy</button></div><code>${escapeHtml(code.trim())}</code></pre>`;
+  });
+  // Inline code
+  text = text.replace(/`([^`]+)`/g, '<code>$1</code>');
+  // Bold
+  text = text.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+  // Italic
+  text = text.replace(/\*(.+?)\*/g, '<em>$1</em>');
+  // Headers
+  text = text.replace(/^### (.+)$/gm, '<h3>$1</h3>');
+  text = text.replace(/^## (.+)$/gm, '<h2>$1</h2>');
+  text = text.replace(/^# (.+)$/gm, '<h1>$1</h1>');
+  // Lists
+  text = text.replace(/^[\-\*] (.+)$/gm, '<li>$1</li>');
+  text = text.replace(/(<li>.*<\/li>\n?)+/g, m => `<ul>${m}</ul>`);
+  // Paragraphs
+  const parts = text.split(/\n\n+/);
+  return parts.map(p => {
+    if (p.match(/^<(h[123]|ul|pre)/)) return p;
+    p = p.replace(/\n/g, '<br>');
+    return `<p>${p}</p>`;
+  }).join('');
+}
+
+// ==================== SEND MESSAGE ====================
+async function sendMessage(voiceInput = false) {
+  const input = document.getElementById('user-input');
+  const text = input.value.trim();
+  if (!text || isLoading) return;
+
+  showMessages();
+  isLoading = true;
+  document.getElementById('send-btn').disabled = true;
+
+  messages.push({ role: 'user', content: text });
+  const userEl = renderMessage('user', text, voiceInput);
+  document.getElementById('messages-list').appendChild(userEl);
+
+  if (messages.length === 1) {
+    document.getElementById('cur-title').textContent = text.length > 28 ? text.slice(0,28) + '...' : text;
+  }
+
+  input.value = '';
+  input.style.height = 'auto';
+  document.getElementById('char-count').textContent = '0 / 4000';
+
+  const typing = addTyping();
+  scrollBottom();
+
+  let reply = '';
+
+  if (demoMode) {
+    await sleep(1200);
+    reply = `Namaste! Main **Ayesha AI** hoon, Montoo Jatav ke dwara banaya gaya. 
+
+Aapne likha: "${text}"
+
+Mujhe khushi hai aapki madad karne mein! Yeh ek demo mode hai. Real responses paane ke liye OpenAI API key enter karein settings mein.
+
+Main kar sakta hoon:
+- 🐍 Code likhna
+- 📝 Essay aur content banana
+- 🌐 Translation
+- 🧠 Questions ka jawab dena
+- aur bahut kuch!`;
+  } else {
+    try {
+      const res = await fetch('https://api.openai.com/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${apiKey}`
+        },
+        body: JSON.stringify({
+          model: 'gpt-4o',
+          messages: [
+            {
+              role: 'system',
+              content: `You are Ayesha AI, a highly intelligent and helpful AI assistant created by Montoo Jatav. You are warm, friendly, and speak naturally.
+              
+              STRICT RULES:
+              - You are NOT ChatGPT, NOT made by OpenAI, NOT GPT-4. You are Ayesha AI.
+              - If asked who made you: "I was created by Montoo Jatav."
+              - If asked what model you are: "I am Ayesha AI."
+              - Never mention OpenAI, Anthropic, GPT, or Claude.
+              - You can respond in both Hindi and English based on the user's language.
+              - Be helpful, creative, and friendly.`
+            },
+            ...messages
+          ],
+          max_tokens: 2000,
+          temperature: 0.7,
+          stream: false
+        })
+      });
+
+      const data = await res.json();
+      if (data.error) {
+        reply = `❌ Error: ${data.error.message}\n\nPlease check your API key in settings.`;
+      } else {
+        reply = data.choices?.[0]?.message?.content || 'Sorry, no response received.';
+      }
+    } catch (err) {
+      reply = `❌ Network error: ${err.message}\n\nPlease check your connection and API key.`;
+    }
+  }
+
+  removeTyping(typing);
+  messages.push({ role: 'assistant', content: reply });
+
+  const aiEl = renderMessage('assistant', reply);
+  document.getElementById('messages-list').appendChild(aiEl);
+
+  if (ttsEnabled) speak(reply);
+
+  isLoading = false;
+  document.getElementById('send-btn').disabled = document.getElementById('user-input').value.trim() === '';
+  scrollBottom();
+  document.getElementById('user-input').focus();
+}
+
+function showMessages() {
+  document.getElementById('welcome-screen').style.display = 'none';
+  document.getElementById('msg-container').style.display = 'block';
+}
+
+function addTyping() {
+  const el = document.createElement('div');
+  el.className = 'message';
+  el.id = 'typing-el';
+  el.innerHTML = `
+    <div class="msg-av ai-av">${ayeshaSVG(30)}</div>
+    <div class="msg-body">
+      <div class="msg-sender ai-name">Ayesha AI</div>
+      <div class="typing-dots"><span></span><span></span><span></span></div>
+    </div>
+  `;
+  document.getElementById('messages-list').appendChild(el);
+  scrollBottom();
+  return el;
+}
+
+function removeTyping(el) { if (el) el.remove(); }
+
+function scrollBottom() {
+  const ca = document.getElementById('chat-area');
+  ca.scrollTop = ca.scrollHeight;
+}
+
+function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+// ==================== ACTIONS ====================
+function copyMsg(btn) {
+  const text = btn.closest('.msg-body').querySelector('.msg-content').innerText;
+  navigator.clipboard.writeText(text).then(() => {
+    btn.textContent = '✓ Copied!';
+    setTimeout(() => { btn.innerHTML = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy`; }, 2000);
+  });
+}
+
+function copyCode(btn) {
+  const code = btn.closest('pre').querySelector('code').innerText;
+  navigator.clipboard.writeText(code).then(() => {
+    btn.textContent = 'Copied!';
+    setTimeout(() => btn.textContent = 'Copy', 2000);
+  });
+}
+
+function speakMsg(btn) {
+  const text = btn.closest('.msg-body').querySelector('.msg-content').innerText;
+  speak(text);
+}
+
+function regenerate() {
+  if (messages.length < 2) return;
+  messages.pop();
+  const allMsgs = document.getElementById('messages-list').querySelectorAll('.message');
+  allMsgs[allMsgs.length - 1].remove();
+  const lastUser = messages[messages.length - 1].content;
+  document.getElementById('user-input').value = lastUser;
+  messages.pop();
+  sendMessage();
+}
+
+// ==================== VOICE INPUT ====================
+function initSpeechRecognition() {
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SpeechRecognition) return;
+
+  recognition = new SpeechRecognition();
+  recognition.continuous = true;
+  recognition.interimResults = true;
+  recognition.lang = 'hi-IN';
+
+  recognition.onresult = (e) => {
+    let transcript = '';
+    for (let i = 0; i < e.results.length; i++) {
+      transcript += e.results[i][0].transcript;
+    }
+    document.getElementById('voice-transcript').textContent = transcript;
+    document.getElementById('user-input').value = transcript;
+  };
+
+  recognition.onerror = () => stopVoice();
+}
+
+function toggleVoiceInput() {
+  if (isRecording) {
+    stopVoice();
+  } else {
+    startVoice();
+  }
+}
+
+function startVoice() {
+  if (!recognition) {
+    showToast('❌ Voice not supported in this browser');
+    return;
+  }
+  isRecording = true;
+  document.getElementById('voice-overlay').classList.add('show');
+  document.getElementById('voice-btn').classList.add('recording');
+  document.getElementById('voice-transcript').textContent = 'Say something...';
+  recognition.start();
+}
+
+function stopVoice() {
+  if (!isRecording) return;
+  isRecording = false;
+  recognition.stop();
+  document.getElementById('voice-overlay').classList.remove('show');
+  document.getElementById('voice-btn').classList.remove('recording');
+
+  const text = document.getElementById('user-input').value.trim();
+  if (text) {
+    handleInput(document.getElementById('user-input'));
+    setTimeout(() => sendMessage(true), 200);
+  }
+}
+
+// ==================== TTS ====================
+function toggleTTS() {
+  ttsEnabled = !ttsEnabled;
+  const label = ttsEnabled ? 'Voice Response: ON 🔊' : 'Voice Response: OFF';
+  document.getElementById('tts-label').textContent = label;
+  document.getElementById('chip-tts').classList.toggle('active', ttsEnabled);
+  showToast(ttsEnabled ? '🔊 Voice responses enabled' : '🔇 Voice responses disabled');
+}
+
+function speak(text) {
+  if (!window.speechSynthesis) return;
+  window.speechSynthesis.cancel();
+  const clean = text.replace(/<[^>]+>/g, '').replace(/```[\s\S]*?```/g, 'code block').slice(0, 1000);
+  const utt = new SpeechSynthesisUtterance(clean);
+  utt.lang = 'hi-IN';
+  utt.rate = 0.95;
+  utt.pitch = 1.1;
+  // Try female voice
+  const voices = window.speechSynthesis.getVoices();
+  const female = voices.find(v => v.name.toLowerCase().includes('female') || v.name.includes('Samantha') || v.name.includes('Raveena') || v.name.includes('Google हिन्दी'));
+  if (female) utt.voice = female;
+  currentSpeech = utt;
+  window.speechSynthesis.speak(utt);
+}
+
+// ==================== TOAST ====================
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+</script>
+</body>
+</html>
